@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h1>Registro de Nuevo Empleado</h1>
+                <form #empleadoForm="ngForm" (ngSubmit)="addEmpleado(empleadoForm)">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingrese su nombre"
+                               [(ngModel)]="empleadoService.selectedEmpleado.nombre" name="nombre">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingrese su cargo"
+                               [(ngModel)]="empleadoService.selectedEmpleado.cargo" name="cargo">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingrese su departamento"
+                               [(ngModel)]="empleadoService.selectedEmpleado.departamento" name="departamento">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" placeholder="Ingrese su sueldo"
+                               [(ngModel)]="empleadoService.selectedEmpleado.sueldo" name="sueldo">
+                    </div>
+                    <button class="btn btn-primary" title="Crear">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-secondary" title="Limpiar">
+                        <i class="fa fa-eraser"></i>
+                    </button>
+                    
+                </form>
+                 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Departamento</th>
+                    <th>Sueldo</th>
+                    <th>Operaciones</th></tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let empleado of empleadoService.empleados">
+                <tr *ngIf="empleado._id">
+                    <td>{{empleado.nombre}}</td>
+                    <td>{{empleado.cargo}}</td>
+                    <td>{{empleado.departamento}}</td>
+                    <td>{{empleado.sueldo}}</td>
+                    <td>
+                        <button class="btn btn-secondary" (click)="openEditModal(editModal, empleado)" title="Actualizar">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        
+                        <button class="btn btn-danger" (click)="eliminarEmpleado(empleado._id)" title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        
+                    
+                    </td>
+                </tr>
+            </ng-container>
+            </tbody>
+        </table>
+    </div> 
+    <ng-template #editModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Editar Empleado</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #editForm="ngForm" (ngSubmit)="onEdit(editForm)">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-control" [(ngModel)]="selectedEmpleado.nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="cargo">Cargo</label>
+                    <input type="text" id="cargo" class="form-control" [(ngModel)]="selectedEmpleado.cargo" name="cargo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="departamento">Departamento</label>
+                    <input type="text" id="departamento" class="form-control" [(ngModel)]="selectedEmpleado.departamento" name="departamento" required>
+                </div>
+                <div class="form-group">
+                    <label for="sueldo">Sueldo</label>
+                    <input type="number" id="sueldo" class="form-control" [(ngModel)]="selectedEmpleado.sueldo" name="sueldo" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" title="Guardar Cambios">
+                    <i class="fa fa-save"></i>
+                </button>
+                
+            </form>
+        </div>
+    </ng-template>
+    
